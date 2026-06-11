@@ -4,10 +4,10 @@ const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const token = await userService.registerUser({ name, email, password });
-    res.cookie("token", token.user, {
+    res.cookie("token", token.token, {
       httpOnly: true,
-      //secure : true //keep it for PRODUCTION
-      sameSite: "lax", //strict , lax , none
+      secure : true, //keep it for PRODUCTION
+      sameSite: "none", //strict , lax , none
       maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
@@ -37,8 +37,8 @@ const login = async (req, res) => {
 
     res.cookie("token", user.token, {
       httpOnly: true,
-      //secure : true //keep it for PRODUCTION
-      sameSite: "lax", //strict , lax , none
+      secure : true, //keep it for PRODUCTION
+      sameSite: "none", //strict , lax , none
       maxAge: 1 * 24 * 60 * 60 * 1000,
     });
 
@@ -232,7 +232,8 @@ const logout = async (req, res) => {
   try {
     res.clearCookie("token", {
       httpOnly: true,
-      sameSite: "lax",
+      secure:true,
+      sameSite: "none",
     });
 
     res.json({
